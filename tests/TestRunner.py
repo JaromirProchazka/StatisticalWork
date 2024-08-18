@@ -1,7 +1,7 @@
 import sys
 # setting path
 sys.path.append('../StatisticalSemestralWork')
-from Caches import Cache, CacheAcess_State
+from CashSimulator.Caches import Cache, CacheAcess_State
 from util.CacheAddress import CacheAdress
 
 class _CashAdressTests:
@@ -19,6 +19,8 @@ class _CashAdressTests:
             raise ValueError("Index should be 0b1101101101 but is {a.index}!")
         if a.tag != 0b11101110111011101:
             raise ValueError("Index should be 0b11101110111011101 but is {a.tag}!")
+        
+        print("test__correct_segments DONE")
 
     def test__incremetns(self):
         c = Cache(16, 5, 10, 2)
@@ -41,6 +43,8 @@ class _CashAdressTests:
 
         if a.adress != expected_adress_next and a.tag != expected_tag_next and a.index != expected_index and a.offset != expected_offset:
             raise Exception("Nullifying tag doesn't work!")
+        
+        print("test__incremetns DONE")
 
 
 class _CacheTests:
@@ -60,6 +64,57 @@ class _CacheTests:
         
         if c.get_or_loadget(a) != CacheAcess_State.HIT:
             raise ValueError("On third acess to the same adress, the HIT shouldn't change validity!")
+        
+        print("test__simple_write DONE")
+    
+    def test__error_on_cache_attributes_not_adding_up(self) -> None:
+        # Correct:
+        c: Cache = Cache(16, 6, 9, 2)
+        err: bool = False 
+
+        # Examples of incorrect:
+        try:
+            c = Cache(16, 3, 9, 4)
+        except:
+            err = True
+        if not err:
+            raise ValueError('Attributes do not add up. Should have thrown an Error! Associativity can not be larger than Block size!')
+        err = False
+
+        try:
+            c = Cache(17, 6, 10, 1)
+        except:
+            err = True
+        if not err:
+            raise ValueError('Attributes do not add up. Should have thrown an Error!')
+        err = False
+
+        try:
+            c = Cache(16, 6, 10, 2)
+        except:
+            err = True
+        if not err:
+            raise ValueError('Attributes do not add up. Should have thrown an Error!')
+        err = False
+
+        try:
+            c = Cache(16, 6, 9, 1)
+        except:
+            err = True
+        if not err:
+            raise ValueError('Attributes do not add up. Should have thrown an Error!')
+        err = False
+
+        try:
+            c = Cache(16, 7, 10, 1)
+        except:
+            err = True
+        if not err:
+            raise ValueError('Attributes do not add up. Should have thrown an Error!')
+        err = False
+
+        print("test__error_on_cache_attributes_not_adding_up DONE")
+
     
     def test__on_line_full(self) -> None:
         c = Cache(16, 5, 10, 2)
@@ -89,16 +144,19 @@ class _CacheTests:
         if c.get_or_loadget(a2) != CacheAcess_State.MISS and c.get_or_loadget(a1) != CacheAcess_State.MISS:
             raise ValueError("On sixth acess to one of the added data at the start of the program, since the the line was full with those two data and than one of tham should have been overwriten, at least one of these should be now a miss!")
 
-
+        print("test__on_line_full DONE")
 
 
 def Run() -> None:
     ct: _CacheTests = _CacheTests()
     at: _CashAdressTests = _CashAdressTests()
 
+    print(">> Cache Adress Parsing Tests")
     at.test__correct_segments()
     at.test__incremetns()
 
+    print(">> Cache Working Tests")
+    ct.test__error_on_cache_attributes_not_adding_up()
     ct.test__simple_write()
     ct.test__on_line_full()
 

@@ -63,8 +63,10 @@ class Cache:
         line_size: int = 1 << _line_size_power
         line_count: int = 1 << _line_count_power
 
+        if _associativity >= line_size:
+            raise ValueError(f"The Associativity can't be larger than block size! associativity:'{_associativity}' >= block_size:'{line_size}'!")
         if cache_size != line_size * _associativity * line_count:
-            raise ValueError("The Cache parameters doesn't result in Cache of the wanted size! cache_size:'{cache_size}' != cache_line_size:'{cache_line_size} * associativity:'{associativity}' * cache_line_count:'{cache_line_count}'!")
+            raise ValueError(f"The Cache parameters doesn't result in Cache of the wanted size! cache_size:'{cache_size}' != cache_line_size:'{line_size}' * associativity:'{_associativity}' * cache_line_count:'{line_count}'!")
 
         self._line_count = line_count
         self._lines = [_CacheLine(_associativity)] * line_count

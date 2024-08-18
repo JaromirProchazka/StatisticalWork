@@ -1,4 +1,4 @@
-from Caches import Cache, CacheAcess_State
+from CashSimulator.Caches import Cache, CacheAcess_State
 from util.CacheAddress import CacheAdress
 from random import randint, choice
 
@@ -10,10 +10,10 @@ class CacheProgram:
         self.block_size = 1 << block_size_power
         
         self.index_bit_count:int = _line_count_power
-        self.offset_bit_count:int = block_size_power >> _associativity_power
+        self.offset_bit_count:int = block_size_power
         self.associativity:int = 1 << _associativity_power
 
-        self.cache = Cache(_cash_size_power, block_size_power >> _associativity_power, _line_count_power, 1 << _associativity_power)
+        self.cache = Cache(_cash_size_power, block_size_power, _line_count_power, 1 << _associativity_power)
         self.acessed: set = set()
         self.filled: bool = False
 
