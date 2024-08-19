@@ -1,11 +1,11 @@
-from CashSimulator.Caches import Cache, CacheAcess_State
+from CacheSimulator.Caches import Cache, CacheAcess_State
 from util.CacheAddress import CacheAdress
 from random import randint, choice
 
 
 class CacheProgram: 
-    """What we want is to measure cash misses on acesses. We don't want to count as a Miss, when we try to read data, which are acessed for the first time (Fill). Therefor the Miss will be an acess to cache to adress which we know was at least once in history filled and which results in not finding the data."""
-    def __init__(self, _cash_size_power:int = 16, _line_count_power:int = 10, block_size_power:int = 6, _associativity_power:int = 0) -> None:
+    """What we want is to measure cache misses on acesses. We don't want to count as a Miss, when we try to read data, which are acessed for the first time (Fill). Therefor the Miss will be an acess to cache to adress which we know was at least once in history filled and which results in not finding the data."""
+    def __init__(self, _cache_size_power:int = 16, _line_count_power:int = 10, block_size_power:int = 6, _associativity_power:int = 0) -> None:
         self.line_count = 1 << _line_count_power
         self.block_size = 1 << block_size_power
         
@@ -13,12 +13,12 @@ class CacheProgram:
         self.offset_bit_count:int = block_size_power
         self.associativity:int = 1 << _associativity_power
 
-        self.cache = Cache(_cash_size_power, block_size_power, _line_count_power, 1 << _associativity_power)
+        self.cache = Cache(_cache_size_power, block_size_power, _line_count_power, 1 << _associativity_power)
         self.acessed: set = set()
         self.filled: bool = False
 
     def acess_until_miss(self) -> int:
-        """Fills the cash completaly and retruns an average number of acesses before the first miss."""
+        """Fills the cache completaly and retruns an average number of acesses before the first miss."""
         if not self.filled:
             self._fill()
             self.filled = True

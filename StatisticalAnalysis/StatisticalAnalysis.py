@@ -2,7 +2,7 @@ import sys
 # setting path
 from StatisticalAnalysis.logger import _StatLogger
 sys.path.append('../StatisticalSemestralWork')
-from CashSimulator.CacheProgram import CacheProgram
+from CacheSimulator.CacheProgram import CacheProgram
 from util.CacheAddress import CacheAdress
 from typing import Self
 from math import sqrt

@@ -1,10 +1,10 @@
 import sys
 # setting path
 sys.path.append('../StatisticalSemestralWork')
-from CashSimulator.Caches import Cache, CacheAcess_State
+from CacheSimulator.Caches import Cache, CacheAcess_State
 from util.CacheAddress import CacheAdress
 
-class _CashAdressTests:
+class _CacheAdressTests:
     def __init__(self) -> None:
         pass
     
@@ -149,7 +149,7 @@ class _CacheTests:
 
 def Run() -> None:
     ct: _CacheTests = _CacheTests()
-    at: _CashAdressTests = _CashAdressTests()
+    at: _CacheAdressTests = _CacheAdressTests()
 
     print(">> Cache Adress Parsing Tests")
     at.test__correct_segments()
