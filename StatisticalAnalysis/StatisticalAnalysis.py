@@ -28,9 +28,10 @@ class Analysis:
         return self
     
     def set_n(self, max_differentce: float, max_likelyhood: float) -> Self:
-        """Uses the chebyshev inequality to compute the n, so that the Likelihood that the measured En from the actuall one is less than {max_differentce} is less than {max_likelyhood}. Than the n is set."""
+        """Uses the Chebyshev inequality to compute the n, so that the Likelihood that the measured En from the actuall one is less than {max_differentce} is less than {max_likelyhood}. Than the n is set."""
         epsilon: int = 10
-        n: int = ((150 / (max_differentce * sqrt(max_likelyhood))) ** 2) + epsilon
+        n: int = ((100 / (max_differentce * sqrt(max_likelyhood))) ** 2) + epsilon
+        print(f"Number of iterations of the experiment: {int(n)}")
         return self._set_n(int(n))
     
 

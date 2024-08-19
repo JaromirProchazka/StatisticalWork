@@ -18,7 +18,7 @@ def main() -> None:
     print()
 
     stat: Analysis = Analysis()
-    stat.set_n(1.0, 0.05).experiment()
+    stat.set_n(max_differentce=0.5, max_likelyhood=0.05).experiment()
     print('Basic Cache Done')
 
     stat.reformat_cache(line_count_power=11, block_size_power=5, associativity_power=0).experiment()
@@ -43,8 +43,6 @@ def main() -> None:
 
     stat.reformat_cache(line_count_power=5, block_size_power=6, associativity_power=5).experiment()
     print('Large Associativity against Line count - DONE')
-    # sstat.reformat_cache(line_count_power=10, block_size_power=4, associativity_power=4).experiment()
-    # pprint('Fully associative - DONE')
 
     print()
     stat.log_results()
