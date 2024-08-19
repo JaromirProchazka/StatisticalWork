@@ -10,7 +10,7 @@ In the Program.py, we first compute `n` with `Analysis.set_n` method which resul
 
 ## Cache Experiment
 
-A Cache is a number an array of Lines, where each line an array of Blocks. Each block has the Tag it stares and a Valid bit of the stored information. On access we index the line, where we try to find the correct tag. If the tag is found and Block is Valid, we have HIT, otherwise MISS.
+A Cache is a number an array of Lines, where each line an array of Blocks. Each block has the Tag it stares and a Valid bit of the stored information. On access we index the line, where we try to find the correct tag. If the tag is found and Block is Valid, we have HIT, otherwise MISS. On MISS, we cache the data to the line. If there is no space (Invalid block), we take uniformly randomly a Block in line and replace it with new (valid) tag.
 
 When the empty cache is created, we must ensure that the MISS isn't created by the fact, that the address is accessed for the first time. For that reason, we first fill the cache with some uniformly random addresses, such that each Block is Fild in and Valid. After that the Experiment can start. We generate random 32bit number using the uniformly random generator and we use it as the address to access. If the access is cached (HIT), we make new random access until the last one is not cached (MISS). We repeat this whole process `n` times.
 
@@ -105,3 +105,7 @@ Line Count  Block size [B]  Associativity  Lambda
 512         16              8              84.69299174253652
 ----------  --------------  -------------  ------------------
 ```
+
+## Conclusion
+
+We can see that the very large Associativity is the best for the Large HIT rate. However, associativity can be quite expensive to implement and so we can see that in general it is better to prefer the larger Block size and associativity and Block size against the Line count. This is probably because this case when we repeatedly access the same line on different tag always replacing the last record.
