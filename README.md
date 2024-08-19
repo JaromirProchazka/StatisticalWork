@@ -8,6 +8,12 @@ What we than measure in the Analysis is the Probabilistic Distribution of the nu
 
 In the Program.py, we first compute `n` with `Analysis.set_n` method which result in is **Result** section after the `Number of iterations of the experiment:` tag. Than we can use (default is provided) `Analysis.reformat_cache` which creates new Cache of given parameters. The `Analysis.experiment` method which runs the experiment n-times and to the resulting table, it writes the row with the cache parameters and the resulting lambda which describes the Exponential distribution: Exp(lambda).
 
+## Cache Experiment
+
+A Cache is a number an array of Lines, where each line an array of Blocks. Each block has the Tag it stares and a Valid bit of the stored information. On access we index the line, where we try to find the correct tag. If the tag is found and Block is Valid, we have HIT, otherwise MISS.
+
+When the empty cache is created, we must ensure that the MISS isn't created by the fact, that the address is accessed for the first time. For that reason, we first fill the cache with some uniformly random addresses, such that each Block is Fild in and Valid. After that the Experiment can start. We generate random 32bit number using the uniformly random generator and we use it as the address to access. If the access is cached (HIT), we make new random access until the last one is not cached (MISS). We repeat this whole process `n` times.
+
 ## Statistical Analysis
 
 The detailed explanation can be found in the **proofs.pdf** file.
