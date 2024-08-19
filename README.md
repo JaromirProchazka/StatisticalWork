@@ -2,22 +2,22 @@
 
 ## Program Description
 
-We use a Simulator of Hardware processor caches of constant size of 2^16 to **aproximate its number of HIT until first MISS using Exponential Distribution**. We can than set it's the line count, size of a data block and associativity. (Cache takes an adress and parses if to tag-index-offset, than the line is retrieved by index. There is a number of blocks in the line where each is marked with a tag. The number of blockes in a line is the associativity. The offset denotes the size of blocks.)
+We use a Simulator of Hardware processor caches of constant size of 2^16 to **approximate its number of HIT until first MISS using Exponential Distribution**. We can than set it's the line count, size of a data block and associativity. (Cache takes an address and parses if to tag-index-offset, than the line is retrieved by index. There is a number of blocks in the line where each is marked with a tag. The number of blocks in a line is the associativity. The offset denotes the size of blocks.)
 
-What we than measure in the Analysis is the Probebalistic Distribution of the number of in a certain way random cache acesses HITs before the first MISS. So one Event for the sequence of acesses like `HIT, HIT, HIT, MISS` is 3. For that we need the Mean, which we will aproximate by repeating the eexperiment `n` times.
+What we than measure in the Analysis is the Probabilistic Distribution of the number of in a certain way random cache accesses HITs before the first MISS. So one Event for the sequence of accesses like `HIT, HIT, HIT, MISS` is 3. For that we need the Mean, which we will approximate by repeating the experiment `n` times.
 
-In the Program.py, we first compute `n` with `Analysis.set_n` method which result in is **Result** section after the `Number of iterations of the experiment:` tag. Than we can use (default is provided) `Analysis.reformat_cache` which creates new Cache of given parameters. The `Analysis.experiment` method which runs the experimet n-times and to the resulting table, it writes the row with the cache parameters and the resulting lambda which describes the Exponential distribution: Exp(lambda).
+In the Program.py, we first compute `n` with `Analysis.set_n` method which result in is **Result** section after the `Number of iterations of the experiment:` tag. Than we can use (default is provided) `Analysis.reformat_cache` which creates new Cache of given parameters. The `Analysis.experiment` method which runs the experiment n-times and to the resulting table, it writes the row with the cache parameters and the resulting lambda which describes the Exponential distribution: Exp(lambda).
 
 ## Statistical Analysis
 
 The detailed explanation can be found in the **proofs.pdf** file.
 
-We basicaly first compute the number of iterations using the Chebyshev inequality in the `Analysis.set_n` where the `max_differentce` parameter denotes the maximal difference between the aproximation of the Mean and the actual one. The `max_likelyhood` parameter denotes the likelihood that the difference is less than `max_differentce`. In the code, ve use:
+We basically first compute the number of iterations using the Chebyshev inequality in the `Analysis.set_n` where the `max_differentce` parameter denotes the maximal difference between the aproximation of the Mean and the actual one. The `max_likelyhood` parameter denotes the likelihood that the difference is less than `max_differentce`. In the code, we use:
 
 ```
 # with definition:
 def set_n(self, max_differentce: float, max_likelyhood: float) -> Self:
-        """Uses the Chebyshev inequality to compute the n, so that the Likelihood that the measured En from the actuall one is less than {max_differentce} is less than {max_likelyhood}. Than the n is set."""
+        """Uses the Chebyshev inequality to compute the n, so that the Likelihood that the measured En from the actual one is less than {max_differentce} is less than {max_likelyhood}. Than the n is set."""
         epsilon: int = 10
         n: int = ((100 / (max_differentce * sqrt(max_likelyhood))) ** 2) + epsilon
         print(f"Number of iterations of the experiment: {int(n)}")
@@ -26,7 +26,7 @@ def set_n(self, max_differentce: float, max_likelyhood: float) -> Self:
 stat.set_n(max_differentce=0.5, max_likelyhood=0.05)
 ```
 
-Than once we have the well aproximated Mean, we use the Method of Moments to aproximate the lambda for the Exp(lambda) distribution.
+Than once we have the well approximated Mean, we use the Method of Moments to approximate the lambda for the Exp(lambda) distribution.
 
 ## Dataset
 
